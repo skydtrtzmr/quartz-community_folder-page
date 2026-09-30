@@ -185,13 +185,29 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         : htmlToJsx(hastRoot);
 
     const pageListContent = PageList(listProps) as unknown as ComponentChildren;
+    const folderPath = slug.endsWith("/index") ? slug.slice(0, -6) : slug;
+    const listingSort = (props.ctx as { cfg?: { configuration?: { listingSort?: unknown } } } | undefined)
+      ?.cfg?.configuration?.listingSort;
+    const listingItems = allPagesInFolder.map((page) => ({
+      slug: page.slug,
+      title: page.frontmatter?.title ?? page.slug,
+      frontmatter: page.frontmatter,
+      dates: page.dates,
+      folder: String(page.slug).endsWith("/index"),
+    }));
 
     return (
       <div class="popover-hint">
         <article class={classes}>
           <div class="markdown-preview-view markdown-rendered">{content}</div>
         </article>
-        <div class="page-listing">
+        <div
+          class="page-listing"
+          data-unified-folder-list
+          data-folder={folderPath}
+          data-items={JSON.stringify(listingItems)}
+          data-listing-sort={JSON.stringify(listingSort ?? {})}
+        >
           {options.showFolderCount && (
             <p>
               {i18n(
@@ -201,7 +217,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
               })}
             </p>
           )}
-          <div>{pageListContent}</div>
+          <div data-unified-folder-content>{pageListContent}</div>
         </div>
       </div>
     );

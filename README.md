@@ -8,8 +8,9 @@
 >   `plugin.options.sort = createFolderPageSort(configuration.listingSort)`（目录级 `field` + `order`，
 >   逐级向上继承；含日期兜底）。`FolderContent`/`PageList` 原样消费 `options.sort`。
 > - `pageType` 仍导出 `name: "FolderPage"`、`layout: "folder"`（`layout.byPageType.folder` 依赖，勿改）。
-> - **未移植**：v4 的「分批加载 + 加载更多」按钮；v4 的列表外观改造（`folder-item`/`file-item` 项类与字重、
->   两列网格、隐藏 tags）。
+> - 文件夹页向 `aggregation-page-pro` 的统一列表脚本提供直属文件、真实子目录、frontmatter 和排序配置。
+>   运行期按右上角面板选择的字段展示嵌套分类，每个文件列表先显示 20 条，可继续加载。
+>   运行期数据加载失败时保留原有 SSR `PageList`。两插件需要同时启用。
 > - upstream = `quartz-community/folder-page`；增量改动提交到 `dev` 分支（`main` 保持镜像上游）。
 
 Renders folder index pages showing a listing of all pages within that folder. Automatically generates virtual index pages for folders that don't have one.
