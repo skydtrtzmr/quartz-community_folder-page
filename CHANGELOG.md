@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- fork 改名：`quartz.name` → `folder-page-pro`、`displayName` → `Folder Page Pro`（避免与社区版抢同一个
+  `.quartz/plugins/<name>` 安装位）；`pageType` 仍为 `FolderPage` / `layout: "folder"`。
+- 文件夹页文件列表的排序改为消费宿主注入的 `configuration.listingSort`（目录级 `field` + `order`，
+  逐级向上继承），并由宿主比较器补齐日期兜底（`frontmatter[field]` → `dates[field]` → `dates.modified`
+  → `dates.date`，仅对 `date/published/modified/created` 生效）；插件侧无比较器实现，`options.sort` 原样消费。
+- 未移植：v4 的分批加载（`batchLoad` / 「加载更多」）与列表外观改造。
+
 ## 1.0.0
 
 ### Major Changes
